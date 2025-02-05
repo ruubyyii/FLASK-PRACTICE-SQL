@@ -1,6 +1,21 @@
 {% extends 'layout.html' %}
 {% block body %}
 <body>
-    <h1>SOY EL REGISTER</h1>
+    <h1>Register</h1>
+    <form action="" method="post">
+        <div id="name">
+            <label for="">Nombre: </label>
+            <input name="name" placeholder="Name" type="text">
+        </div>
+        <div id="email">
+            <label for="">Email: </label>
+            <input name="email" placeholder="Email" type="email">
+        </div>
+        <div id="password">
+            <label for="">Password: </label>
+            <input name="password" placeholder="Password" type="password">
+        </div>
+        <button type="submit">Sumbit</button>
+    </form>
 </body>
 {% endblock %}

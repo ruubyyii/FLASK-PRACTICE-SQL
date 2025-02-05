@@ -24,7 +24,24 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
-    return render_template('register.html')
+    if request.method == 'GET':
+
+        return render_template('register.html')
+
+    if request.method == 'POST':
+
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        print(name, email, password)
+
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO users VALUES(NULL, %s, %s, %s)', (name, email, password))
+        mysql.connection.commit()
+
+        return redirect(url_for('login'))
+
 
 #LOGIN
 @app.route('/login', methods=['GET', 'POST'])
