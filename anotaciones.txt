@@ -1,0 +1,9 @@
+Runear el script sin entrar al Workbench:
+
+mysql -u root -p < flask_practice_sql.sql
+
+
+Crear secret_key:
+
+- Forma 1: python -c "import secrets; print(secrets.token_hex(16))" 
+- Forma 2: python -c "import os; print(os.urandom(16).hex())"
