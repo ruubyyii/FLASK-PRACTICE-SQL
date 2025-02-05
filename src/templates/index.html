@@ -7,6 +7,25 @@
     </header>
     <main>
         <h2>Productos</h2>
+        {% for products in products %}
+            <div id="cont_product">
+                <img src="{{ products.3 }}" alt="">
+                <div id="name_price">
+                    <span>{{ products.1 }}</span>
+                    <span>{{ products.2 }}</span>
+                </div>
+                <form method="post" action="{{ url_for('index') }}">
+                    <button type="submit">Añadir a favoritos</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <span>{{ message }}</span>  <!-- Muestra el mensaje flash -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        {% endfor %}
     </main>
 </body>
 {% endblock %}
