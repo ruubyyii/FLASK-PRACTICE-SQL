@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 from config import config
 
 app = Flask(__name__)
-# Inicio MySQL en mi applicacion.
+
 mysql = MySQL(app)
 
 #INDEX
@@ -42,20 +42,48 @@ def register():
 
         return redirect(url_for('login'))
 
-
 #LOGIN
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
-    return render_template('login.html')
+    if request.method == 'GET':
+
+        return render_template('login.html')
+
+    if request.method == 'POST':
+
+        name = request.form.get('name')
+        password = request.form.get('password')
+
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT id, name, password FROM users WHERE name = %s AND password = %s', (name, password))
+        user = cur.fetchone()
+        print(user)
+        if user:
+            print('SOY UN PEDAZO DE POLLA GORDA😋')
+
+            return redirect(url_for('perfil', user_id=user[0]))
+
+    return 'TENGO EL PENE PEQUENITO | User: {}'.format(user)
+
+@app.route('/perfil/<int:user_id>')
+def perfil(user_id):
+
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+    user = cur.fetchone()
+    print(user)
+    return render_template('perfil.html', user=user)
 
 #USERS
 @app.route('/users', methods=['GET'])
 def users():
 
-    return render_template('users.html')
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM users')
+    users = cur.fetchall()
 
-
+    return render_template('users.html', users=users)
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])

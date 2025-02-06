@@ -2,5 +2,22 @@
 {% block body %}
 <body>
     <h1>SOY EL USERS</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>  
+            <td>{{ user[1] }}</td>  
+            <td>{{ user[2] }}</td>  
+            <td>{{ user[3] }}</td>  
+        </tr>
+        {% endfor %}
+    </table>
+    
 </body>
 {% endblock %}
