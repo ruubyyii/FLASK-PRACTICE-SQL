@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mysqldb import MySQL
 from config import config
 
@@ -34,10 +35,11 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        hashed_password = generate_password_hash(password)
         print(name, email, password)
 
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO users VALUES(NULL, %s, %s, %s)', (name, email, password))
+        cur.execute('INSERT INTO users VALUES(NULL, %s, %s, %s)', (name, email, hashed_password))
         mysql.connection.commit()
 
         return redirect(url_for('login'))
@@ -56,16 +58,17 @@ def login():
         password = request.form.get('password')
 
         cur = mysql.connection.cursor()
-        cur.execute('SELECT id, name, password FROM users WHERE name = %s AND password = %s', (name, password))
+        cur.execute('SELECT id, name, password FROM users WHERE name = %s', (name,))
         user = cur.fetchone()
-        print(user)
-        if user:
-            print('SOY UN PEDAZO DE POLLA GORDA😋')
 
-            return redirect(url_for('perfil', user_id=user[0]))
+        comp_pass = check_password_hash(user[2], password)
 
-    return 'TENGO EL PENE PEQUENITO | User: {}'.format(user)
+        if comp_pass:
+            return redirect(url_for('perfil', user_id=user[0])) 
 
+        return 'TENGO EL PENE PEQUENITO | User: {}'.format(user)
+        
+# PERFIL
 @app.route('/perfil/<int:user_id>')
 def perfil(user_id):
 
