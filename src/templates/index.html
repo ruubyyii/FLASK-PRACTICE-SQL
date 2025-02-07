@@ -3,7 +3,19 @@
 <body>
     <header>
         <h1>MiPeneSQL</h1>
-        <nav><a href="./login">Login</a><a href="./register">Register</a><a href="./users">Users</a></nav>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Donde quieres ir?</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Selecciona</a>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Donde quieres ir?</h6>
+                    <a class="dropdown-item" href="{{url_for('login')}}">Login</a>
+                    <a class="dropdown-item" href="{{url_for('register')}}">Register</a>
+                    <a class="dropdown-item" href="{{url_for('users')}}">Users</a>
+            </li>
+        </ul>
     </header>
     <main>
         <h2>Productos</h2>
@@ -15,12 +27,15 @@
                     <span>{{ products.2 }}</span>
                 </div>
                 <form method="post" action="{{ url_for('index') }}">
-                    <button type="submit">Añadir a favoritos</button>
+                    <button class="btn btn-primary" type="submit">Añadir a favoritos</button>
                 </form>
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages %}
-                            <span>{{ message }}</span>  <!-- Muestra el mensaje flash -->
+                            <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <strong>Parece que ha habido un error!</strong> <a href="#" class="alert-link">Inicia sesion</a> y intentalo de nuevo.
+                            </div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}

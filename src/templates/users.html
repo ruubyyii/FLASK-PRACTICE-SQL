@@ -2,13 +2,13 @@
 {% block body %}
 <body>
     <h1>SOY EL USERS</h1>
-    <table>
+    <table class="table table-hover">
         <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Password</th>
-        </tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+        </tr class="table-active">
         {% for user in users %}
         <tr>
             <td>{{ user[0] }}</td>  
